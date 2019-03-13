@@ -14,7 +14,7 @@ npm install
 - **Usage**:
    To generate chain spec and include all system contracts (according to DEFAULT_CONTRACT_CONFIGS within index.js file):
 
-node . --p [COMPILED-CONTRACTS-PATH]
+node . --p [COMPILED-CONTRACTS-PATH] 
 ```
 node . --p /.../genome-system-contracts/build/contracts
 ```
