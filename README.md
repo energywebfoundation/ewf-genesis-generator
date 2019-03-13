@@ -1,5 +1,5 @@
-# EWF-genesis-generator
-EWF Genesis JSON generator
+# ewf-genesis-generator
+EWF chain genesis JSON generator
 
 ## Maintainers
 **Primary**: Mani Hagh Sefat
