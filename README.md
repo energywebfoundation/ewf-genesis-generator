@@ -16,11 +16,11 @@ npm install
 
 node . --p [COMPILED-CONTRACTS-PATH] 
 ```
-node . --p /.../genome-system-contracts/build/contracts
+node . --p ../genome-system-contracts/build/contracts
 ```
    - To generate for specific contract:
 
 node . --p [COMPILED-CONTRACT-PATH] --cn [DESIRED-CONTRACT-NAME] --ca [DESIRED-CONTRACT-ADDRESS]
 ```
-node . --p /.../genome-system-contracts/build/contracts --cn ValidatorFoo --ca 0x1000000000000000000000000000000000000005
+node . --p ../genome-system-contracts/build/contracts --cn ValidatorFoo --ca 0x1000000000000000000000000000000000000005
 ```
