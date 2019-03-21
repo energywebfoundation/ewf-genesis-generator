@@ -49,7 +49,7 @@ async.waterfall([
     retrieveChainspec,
     retrieveContractsBytecode
 ], function (err, result) {
-    let data = JSON.stringify(chainspec);
+    let data = JSON.stringify(chainspec, null, 4);
     var buildPath = '';
     if (BUILD_PATH){
         buildPath = BUILD_PATH;
