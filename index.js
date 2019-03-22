@@ -6,6 +6,7 @@ const getJSON = require('get-json');
 const fsExtra = require('fs-extra');
 const async = require('async');
 const Web3 = require('web3');
+const ganache = require("ganache-core");
 
 // parse argument variables
 const args = require('minimist')(process.argv.slice(2));
@@ -42,9 +43,16 @@ var DEFAULT_CONTRACT_CONFIGS = [
         ]
     }
 ];
+var DEFAULT_CONTRACT_CONFIGS = [
+    {        
+        address: '0x1204700000000000000000000000000000000000',
+        name: 'ValidatorSetRelay',
+        description: 'Validator Set Relay',
+        params: '0x1204700000000000000000000000000000000001'
+    }]
 var EWF_ADDRESS = '0x069feF24235d0A08c6D06428D8131CCda89b2117';
 
-var web3 = new Web3();
+var web3 = new Web3(ganache.provider());
 
 var chainspec = {};
 
@@ -100,11 +108,11 @@ function retrieveContractsBytecode(callback) {
                 fs.readFile(CONTRACTS_PATH + '/' + contractConfig.name + '.json', (err, contractJson) => {  
                     if (err) throw err;
                     // encode ABI
-                    const myContract = new web3.eth.Contract(contractConfig.address, {
+                    const myContract = new web3.eth.Contract([contractJson], '0x1204700000000000000000000000000000000001', {
                         from: EWF_ADDRESS, // default from address
                         gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
                     });
-                    
+
                     // Simply encoding
                     myContract.deploy({
                         data: JSON.parse(contractJson).bytecode,

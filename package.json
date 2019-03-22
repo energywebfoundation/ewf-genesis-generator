@@ -8,8 +8,9 @@
   "dependencies": {
     "async": "^2.6.2",
     "fs-extra": "^7.0.1",
+    "ganache-core": "^2.5.3",
     "get-json": "^1.0.1",
     "minimist": "^1.2.0",
-    "web3": "^1.0.0-beta.50"
+    "web3": "1.0.0-beta.48"
   }
 }
