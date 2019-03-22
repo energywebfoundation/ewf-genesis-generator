@@ -22,19 +22,22 @@ const SINGLE_CONTRACT_ADDRESS = args['ca'];
 const BUILD_PATH = args['b'];
 
 // default sample contract config
+const VALIDATOR_RELAY = '0x1204700000000000000000000000000000000000';
+const VALIDATOR_RELAYED = '0x1204700000000000000000000000000000000001';
+
 var DEFAULT_CONTRACT_CONFIGS = [
     {        
-        address: '0x1204700000000000000000000000000000000000',
+        address: VALIDATOR_RELAY,
         name: 'ValidatorSetRelay',
         description: 'Validator Set Relay',
-        params: '0x1204700000000000000000000000000000000001'
+        params: [VALIDATOR_RELAYED]
     },
     {
-        address: '0x1204700000000000000000000000000000000001',
+        address: VALIDATOR_RELAYED,
         name: 'ValidatorSetRelayed',
         description: 'Validator Set Relayed',
         params: [
-            '0x1204700000000000000000000000000000000000',
+            VALIDATOR_RELAY,
             [
             "0x7e8b8661dbc77d6bee7a1892fbcf8ef6378cab30",
             "0xdae561c716f9ea58e32e37d9ae95465eca286012",
@@ -43,13 +46,7 @@ var DEFAULT_CONTRACT_CONFIGS = [
         ]
     }
 ];
-var DEFAULT_CONTRACT_CONFIGS = [
-    {        
-        address: '0x1204700000000000000000000000000000000000',
-        name: 'ValidatorSetRelay',
-        description: 'Validator Set Relay',
-        params: '0x1204700000000000000000000000000000000001'
-    }]
+
 var EWF_ADDRESS = '0x069feF24235d0A08c6D06428D8131CCda89b2117';
 
 var web3 = new Web3(ganache.provider());
@@ -58,6 +55,7 @@ var chainspec = {};
 
 async.waterfall([
     retrieveChainspec,
+    addValidator,
     addDeployer,
     retrieveContractsBytecode
 ], function (err, result) {
@@ -108,21 +106,19 @@ function retrieveContractsBytecode(callback) {
                 fs.readFile(CONTRACTS_PATH + '/' + contractConfig.name + '.json', (err, contractJson) => {  
                     if (err) throw err;
                     // encode ABI
-                    const myContract = new web3.eth.Contract([contractJson], '0x1204700000000000000000000000000000000001', {
+                    const myContract = new web3.eth.Contract([contractJson], {
                         from: EWF_ADDRESS, // default from address
-                        gasPrice: '20000000000' // default gas price in wei, 20 gwei in this case
+                        gasPrice: '20000000000', // default gas price in wei, 20 gwei in this case
+                        data: JSON.parse(contractJson).bytecode
                     });
-
                     // Simply encoding
-                    myContract.deploy({
-                        data: JSON.parse(contractJson).bytecode,
-                        arguments: [contractConfig.params]
-                    })
-                    .encodeABI();
+                    let abi = myContract.deploy({
+                        arguments: contractConfig.params
+                    }).encodeABI();
 
                     chainspec.accounts[contractConfig.address] = {
                         balance: '1',
-                        constructor: myContract
+                        constructor: abi
                     };            
                     callback(null);
                 });        
@@ -140,6 +136,13 @@ function retrieveContractsBytecode(callback) {
 function addDeployer(callback) {
     chainspec.accounts[EWF_ADDRESS] = {
         balance: '1000000000000000' // !!!
+    };
+    callback(null);
+}
+
+function addValidator(callback) {
+    chainspec.engine.authorityRound.params["validators"] = {
+        contract: VALIDATOR_RELAY
     };
     callback(null);
 }
