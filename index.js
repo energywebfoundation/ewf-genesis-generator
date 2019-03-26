@@ -43,9 +43,9 @@ var DEFAULT_CONTRACT_CONFIGS = [
             VALIDATOR_RELAYED,
             VALIDATOR_RELAY,
             [
-            "0x7e8b8661dbc77d6bee7a1892fbcf8ef6378cab30",
-            "0xdae561c716f9ea58e32e37d9ae95465eca286012",
-            "0xebee2fc556975c3dd50c17d13a15af535fb7bbb3"
+                "0x7e8b8661dbc77d6bee7a1892fbcf8ef6378cab30",
+                "0xdae561c716f9ea58e32e37d9ae95465eca286012",
+                "0xebee2fc556975c3dd50c17d13a15af535fb7bbb3"
             ]
         ],
         params_types: ['address', 'address', 'address[]']
