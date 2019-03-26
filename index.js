@@ -21,9 +21,11 @@ const SINGLE_CONTRACT_NAME = args['cn'];
 const SINGLE_CONTRACT_ADDRESS = args['ca'];
 const BUILD_PATH = args['b'];
 
-// default sample contract config
+// default contract config
 const VALIDATOR_RELAY = '0x1204700000000000000000000000000000000000';
 const VALIDATOR_RELAYED = '0x1204700000000000000000000000000000000001';
+const REWARD = '0x1204700000000000000000000000000000000002';
+const COMMUNITY_FUND = '0x1204700000000000000000000000000000000003';
 
 var DEFAULT_CONTRACT_CONFIGS = [
     {        
@@ -31,16 +33,15 @@ var DEFAULT_CONTRACT_CONFIGS = [
         name: 'ValidatorSetRelay',
         description: 'Validator Set Relay',
         params: [
-            VALIDATOR_RELAY, [VALIDATOR_RELAYED]
+            VALIDATOR_RELAYED
         ],
-        params_types: ['address', 'address[]']
+        params_types: ['address']
     },
-     {
+    {
         address: VALIDATOR_RELAYED,
         name: 'ValidatorSetRelayed',
         description: 'Validator Set Relayed',
         params: [
-            VALIDATOR_RELAYED,
             VALIDATOR_RELAY,
             [
                 "0x7e8b8661dbc77d6bee7a1892fbcf8ef6378cab30",
@@ -48,7 +49,17 @@ var DEFAULT_CONTRACT_CONFIGS = [
                 "0xebee2fc556975c3dd50c17d13a15af535fb7bbb3"
             ]
         ],
-        params_types: ['address', 'address', 'address[]']
+        params_types: ['address', 'address[]']
+    },
+    {
+        address: REWARD,
+        name: 'BlockReward',
+        description: 'Block Reward',
+        params: [
+            COMMUNITY_FUND,
+            "0"
+        ],
+        params_types: ['address', 'uint']
     }
 
 ];
@@ -59,7 +70,7 @@ var chainspec = {};
 
 async.waterfall([
     retrieveChainspec,
-    addValidator,
+    addPoaParams,
     retrieveContractsBytecode
 ], function (err, result) {
     let data = JSON.stringify(chainspec, null, 4);
@@ -127,9 +138,17 @@ function retrieveContractsBytecode(callback) {
     }
 }
 
-function addValidator(callback) {
+function addPoaParams(callback) {
+    // link validators set
     chainspec.engine.authorityRound.params["validators"] = {
         contract: VALIDATOR_RELAY
+    };
+    // link reward contract
+    chainspec.engine.authorityRound["params"] = {
+        blockRewardContractAddress: REWARD
+    };
+    chainspec.engine.authorityRound["params"] = {
+        blockRewardContractTransition: "0"
     };
     callback(null);
 }
