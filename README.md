@@ -13,14 +13,10 @@ npm install
 
 - **Usage**:
    To generate chain spec and include all system contracts (according to DEFAULT_CONTRACT_CONFIGS within index.js file):
+- **Requirements**:
+   - Compiled system contracts and Gnosis MultiSigWallet contract
 
-node . --p [COMPILED-CONTRACTS-PATH] 
+node . --p [COMPILED-CONTRACTS-PATH] -m [COMPILED-MULTISIG-PATH]
 ```
-node . --p ../genome-system-contracts/build/contracts
-```
-   - To generate for specific contract:
-
-node . --p [COMPILED-CONTRACT-PATH] --cn [DESIRED-CONTRACT-NAME] --ca [DESIRED-CONTRACT-ADDRESS]
-```
-node . --p ../genome-system-contracts/build/contracts --cn ValidatorFoo --ca 0x1000000000000000000000000000000000000005
+node . -p ../genome-system-contracts/build/contracts/ -m ../MultiSigWallet/build/contracts/
 ```
