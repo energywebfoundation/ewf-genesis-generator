@@ -30,24 +30,28 @@ var DEFAULT_CONTRACT_CONFIGS = [
         address: VALIDATOR_RELAY,
         name: 'ValidatorSetRelay',
         description: 'Validator Set Relay',
-        params: [VALIDATOR_RELAYED]
+        params: [
+            VALIDATOR_RELAY, [VALIDATOR_RELAYED]
+        ],
+        params_types: ['address', 'address[]']
     },
-    {
+     {
         address: VALIDATOR_RELAYED,
         name: 'ValidatorSetRelayed',
         description: 'Validator Set Relayed',
         params: [
+            VALIDATOR_RELAYED,
             VALIDATOR_RELAY,
             [
             "0x7e8b8661dbc77d6bee7a1892fbcf8ef6378cab30",
             "0xdae561c716f9ea58e32e37d9ae95465eca286012",
             "0xebee2fc556975c3dd50c17d13a15af535fb7bbb3"
             ]
-        ]
+        ],
+        params_types: ['address', 'address', 'address[]']
     }
-];
 
-var EWF_ADDRESS = '0x069feF24235d0A08c6D06428D8131CCda89b2117';
+];
 
 var web3 = new Web3(ganache.provider());
 
@@ -56,7 +60,6 @@ var chainspec = {};
 async.waterfall([
     retrieveChainspec,
     addValidator,
-    addDeployer,
     retrieveContractsBytecode
 ], function (err, result) {
     let data = JSON.stringify(chainspec, null, 4);
@@ -89,7 +92,7 @@ function retrieveChainspec(callback) {
 function retrieveContractsBytecode(callback) {   
     console.log('## retrieving specifid contracts bytecodes ##');
 
-    if (SINGLE_CONTRACT){
+    if (SINGLE_CONTRACT) {
         // retrieving the compiled contract bytecode
         fs.readFile(CONTRACTS_PATH + '/' + SINGLE_CONTRACT_NAME + '.json', (err, contractJson) => {  
             if (err) throw err;            
@@ -99,27 +102,18 @@ function retrieveContractsBytecode(callback) {
             };            
             callback(null);
         });
-    } else{
+    } else {
         if (CONTRACTS_PATH != undefined){
             async.each(DEFAULT_CONTRACT_CONFIGS, function(contractConfig, callback) {        
                 // retrieving the compiled contract bytecode
                 fs.readFile(CONTRACTS_PATH + '/' + contractConfig.name + '.json', (err, contractJson) => {  
                     if (err) throw err;
-                    // encode ABI
-                    const myContract = new web3.eth.Contract([contractJson], {
-                        from: EWF_ADDRESS, // default from address
-                        gasPrice: '20000000000', // default gas price in wei, 20 gwei in this case
-                        data: JSON.parse(contractJson).bytecode
-                    });
-                    // Simply encoding
-                    let abi = myContract.deploy({
-                        arguments: contractConfig.params
-                    }).encodeABI();
 
+                    let _constructor = encodeParamToByteCode(JSON.parse(contractJson).bytecode, contractConfig.params_types, contractConfig.params);
                     chainspec.accounts[contractConfig.address] = {
                         balance: '1',
-                        constructor: abi
-                    };            
+                        constructor: _constructor
+                    };
                     callback(null);
                 });        
               }, function(err) {
@@ -127,17 +121,10 @@ function retrieveContractsBytecode(callback) {
                     callback(null);
                 }
             });
-        }else{
+        } else {
             console.log("Compiled built contract path no defined, usage: --p <YOUR_COMPILED_CONTRACT_PATH>");
         }  
     }
-}
-
-function addDeployer(callback) {
-    chainspec.accounts[EWF_ADDRESS] = {
-        balance: '1000000000000000' // !!!
-    };
-    callback(null);
 }
 
 function addValidator(callback) {
@@ -146,3 +133,12 @@ function addValidator(callback) {
     };
     callback(null);
 }
+
+function encodeParamToByteCode(bytecode, parameterTypes, parameterValues) {
+    if (parameterTypes.length !== parameterValues.length)
+      throw "types and values do not match"
+    //encode the parameters
+    parameters = web3.eth.abi.encodeParameters(parameterTypes, parameterValues);
+    //merge bytecode and parameters
+    return bytecode.concat(parameters.slice(2))
+  }
