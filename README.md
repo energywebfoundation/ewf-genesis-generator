@@ -6,13 +6,14 @@ EWF chain genesis JSON generator
 
 ## Quickstart
 ```
-npm install
+chmod +x install.sh
+./install.sh
 ```
 
 ## Guidelines
 
 - **Usage**:
-   To generate chain spec and include all system contracts (according to DEFAULT_CONTRACT_CONFIGS within index.js file):
+   To generate chain spec and include all contracts
 - **Requirements**:
    - Compiled system contracts and Gnosis MultiSigWallet contract
 
