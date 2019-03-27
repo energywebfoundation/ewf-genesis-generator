@@ -67,19 +67,22 @@ var DEFAULT_MULTISIG_CONFIGS = [
         description: 'Multi Signature Wallet',
         params: [
             // list of netops addresses
-            ['0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9']
+            ['0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9'],
+            '1'
         ],
-        params_types: ['address[]']
-    }  
+        params_types: ['address[]', 'uint']
+    }
 ]
 
 var web3 = new Web3(ganache.provider());
 
 var chainspec = {};
 
+// main
 async.waterfall([
     retrieveChainspec,
     addPoaParams,
+    addMultiSigs,
     retrieveContractsBytecode
 ], function (err, result) {
     let data = JSON.stringify(chainspec, null, 4);
@@ -98,6 +101,7 @@ async.waterfall([
     }    
 });
 
+
 function retrieveChainspec(callback) {
     console.log('-***-###-@@@-&&&-- EWF Genesis ChianSpec Generator --***-###-@@@-&&&--');
     console.log('## retrieving initial chainspec file ##');
@@ -109,55 +113,61 @@ function retrieveChainspec(callback) {
     });
 }
 
-function retrieveContractsBytecode(callback) {   
-    console.log('## retrieving specifid contracts bytecodes ##');
 
-    async.series([
-        function(callback) {
-            if (MULTISIG_PATH != undefined){
-                async.each(DEFAULT_MULTISIG_CONFIGS, function(contractConfig, callback) { 
-                    fs.readFile(MULTISIG_PATH + '/' + contractConfig.name + '.json', (err, contractJson) => {
-                        if (err) throw err;
-            
-                        let _constructor = encodeParamToByteCode(JSON.parse(contractJson).bytecode, contractConfig.params_types, contractConfig.params);
-                        chainspec.accounts[contractConfig.address] = {
-                            balance: '1',
-                            constructor: _constructor
-                        };
-                        callback(null);
-                    });
-                }, function(err) {
-                    if (!err){
-                        callback(null);
-                    }
-                });
+// adds multisig contracts
+function addMultiSigs(callback) {
+    console.log('## adding multi sig contracts ##');
+
+    if (MULTISIG_PATH != undefined){
+        async.each(DEFAULT_MULTISIG_CONFIGS, function(contractConfig, callback) { 
+            fs.readFile(MULTISIG_PATH + '/' + contractConfig.name + '.json', (err, contractJson) => {
+                if (err) throw err;
+    
+                let _constructor = encodeParamToByteCode(JSON.parse(contractJson).bytecode, contractConfig.params_types, contractConfig.params);
+                chainspec.accounts[contractConfig.address] = {
+                    balance: '1',
+                    constructor: _constructor
+                };
+                callback(null);
+            });
+        }, function(err) {
+            if (!err){
+                callback(null);
             }
-        },
-        function(callback) {
-            if (CONTRACTS_PATH != undefined){
-                async.each(DEFAULT_CONTRACT_CONFIGS, function(contractConfig, callback) {        
-                    // retrieving the compiled contract bytecode
-                    fs.readFile(CONTRACTS_PATH + '/' + contractConfig.name + '.json', (err, contractJson) => {
-                        if (err) throw err;
-        
-                        let _constructor = encodeParamToByteCode(JSON.parse(contractJson).bytecode, contractConfig.params_types, contractConfig.params);
-                        chainspec.accounts[contractConfig.address] = {
-                            balance: '1',
-                            constructor: _constructor
-                        };
-                        callback(null);
-                    });        
-                    }, function(err) {
-                    if (!err){
-                        callback(null);
-                    }
-                });
-            } else {
-                console.log("Compiled built contract path no defined, usage: --p <YOUR_COMPILED_CONTRACT_PATH>");
-            }
-        }
-    ])
+        });
+    }
+
 }
+
+
+// adds system contracts
+function retrieveContractsBytecode(callback) {   
+    console.log('## retrieving system contracts bytecodes ##');
+
+    if (CONTRACTS_PATH != undefined){
+        async.eachSeries(DEFAULT_CONTRACT_CONFIGS, function(contractConfig, callback) {        
+            // retrieving the compiled contract bytecode
+            fs.readFile(CONTRACTS_PATH + '/' + contractConfig.name + '.json', (err, contractJson) => {
+                if (err) throw err;
+                
+                console.log("Adding " + contractConfig.description)
+                let _constructor = encodeParamToByteCode(JSON.parse(contractJson).bytecode, contractConfig.params_types, contractConfig.params);
+                chainspec.accounts[contractConfig.address] = {
+                    balance: '1',
+                    constructor: _constructor
+                };
+                callback(null);
+            });        
+            }, function(err) {
+            if (!err){
+                callback(null);
+            }
+        });
+    } else {
+        console.log("Compiled built contract path no defined, usage: --p <YOUR_COMPILED_CONTRACT_PATH>");
+    }
+}
+
 
 function addPoaParams(callback) {
     // link validators set
@@ -173,6 +183,7 @@ function addPoaParams(callback) {
     };
     callback(null);
 }
+
 
 function encodeParamToByteCode(bytecode, parameterTypes, parameterValues) {
     if (parameterTypes.length !== parameterValues.length)
