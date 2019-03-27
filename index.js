@@ -22,6 +22,7 @@ const VALIDATOR_RELAYED = '0x1204700000000000000000000000000000000001';
 const REWARD = '0x1204700000000000000000000000000000000002';
 const COMMUNITY_FUND = '0x1204700000000000000000000000000000000003';
 const VESTING = '0x1204700000000000000000000000000000000004';
+const VALIDATOR_NETOPS = '0x1204700000000000000000000000000000000005';
 
 var DEFAULT_CONTRACT_CONFIGS = [
     {
@@ -70,11 +71,22 @@ var DEFAULT_CONTRACT_CONFIGS = [
 
 var DEFAULT_MULTISIG_CONFIGS = [
     {        
-        address: COMMUNITY_FUND,
+        address: VALIDATOR_NETOPS,
         name: 'MultiSigWallet',
-        description: 'Multi Signature Wallet',
+        description: 'Wallet of the Netops team',
         params: [
             // list of netops addresses
+            ['0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9'],
+            '1'
+        ],
+        params_types: ['address[]', 'uint']
+    },
+    {        
+        address: COMMUNITY_FUND,
+        name: 'MultiSigWallet',
+        description: 'Wallet of the Community Fund',
+        params: [
+            // list of foundation addresses
             ['0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9'],
             '1'
         ],
