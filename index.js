@@ -21,6 +21,7 @@ const VALIDATOR_RELAY = '0x1204700000000000000000000000000000000000';
 const VALIDATOR_RELAYED = '0x1204700000000000000000000000000000000001';
 const REWARD = '0x1204700000000000000000000000000000000002';
 const COMMUNITY_FUND = '0x1204700000000000000000000000000000000003';
+const VESTING = '0x1204700000000000000000000000000000000004';
 
 var DEFAULT_CONTRACT_CONFIGS = [
     {
@@ -56,6 +57,13 @@ var DEFAULT_CONTRACT_CONFIGS = [
             "0"
         ],
         params_types: ['address', 'uint']
+    },
+    {
+        address: VESTING,
+        name: 'Holding',
+        description: 'Vesting Contract',
+        params: [],
+        params_types: []
     }
 
 ];
