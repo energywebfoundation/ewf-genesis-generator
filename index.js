@@ -183,12 +183,8 @@ function addPoaParams(callback) {
         contract: VALIDATOR_RELAY
     };
     // link reward contract
-    chainspec.engine.authorityRound["params"] = {
-        blockRewardContractAddress: REWARD
-    };
-    chainspec.engine.authorityRound["params"] = {
-        blockRewardContractTransition: "0"
-    };
+    chainspec.engine.authorityRound.params["blockRewardContractAddress"] = REWARD;
+    chainspec.engine.authorityRound.params["blockRewardContractTransition"] = "0";
     callback(null);
 }
 
