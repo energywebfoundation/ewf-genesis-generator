@@ -1,10 +1,13 @@
 # ewf-genesis-generator
 EWF chain genesis JSON generator
 
+The JSON file can be eventually manually pushed to https://github.com/energywebfoundation/ewf-chainspec
+
 ## Maintainers
 **Primary**: Mani Hagh Sefat
 
 ## Quickstart
+The script will download and compile MultiSigWallet and system contracts in parent directory. Be sure that you don't have a local copy already there.
 ```
 chmod +x install.sh
 ./install.sh

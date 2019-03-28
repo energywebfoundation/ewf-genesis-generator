@@ -9,7 +9,7 @@ npm install
 truffle compile
 cd ..
 git clone https://github.com/energywebfoundation/genome-system-contracts.git
-cd enome-system-contracts
+cd genome-system-contracts
 git checkout "feat/validator_contracts"
 truffle compile
 git checkout "feat/reward_contract"
