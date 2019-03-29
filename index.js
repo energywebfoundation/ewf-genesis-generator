@@ -16,6 +16,9 @@ const CONTRACTS_PATH = args['p'];
 const MULTISIG_PATH = args['m'];
 const BUILD_PATH = args['b'];
 
+// internal settings
+const SPEC_NAME = '/build/chainspec/Volta';
+
 // default contract config
 const VALIDATOR_RELAY = '0x1204700000000000000000000000000000000000';
 const VALIDATOR_RELAYED = '0x1204700000000000000000000000000000000001';
@@ -23,6 +26,7 @@ const REWARD = '0x1204700000000000000000000000000000000002';
 const COMMUNITY_FUND = '0x1204700000000000000000000000000000000003';
 const VESTING = '0x1204700000000000000000000000000000000004';
 const VALIDATOR_NETOPS = '0x1204700000000000000000000000000000000005';
+const TARGET_AMOUNT = '80000000000000000000000';
 
 var DEFAULT_CONTRACT_CONFIGS = [
     {
@@ -53,9 +57,10 @@ var DEFAULT_CONTRACT_CONFIGS = [
         address: REWARD,
         name: 'BlockReward',
         description: 'Block Reward',
+        balance: TARGET_AMOUNT,
         params: [
             COMMUNITY_FUND,
-            "0"
+            '0'
         ],
         params_types: ['address', 'uint']
     },
@@ -100,6 +105,7 @@ var chainspec = {};
 
 // main
 async.waterfall([
+    deletePreviousVersion,
     retrieveChainspec,
     addPoaParams,
     addMultiSigs,
@@ -109,13 +115,13 @@ async.waterfall([
     var buildPath = '';
     if (BUILD_PATH){
         buildPath = BUILD_PATH;
-    }else{
-        buildPath = process.cwd() + '/build/chainspec/Volta.json';
+    } else {
+        buildPath = process.cwd() + SPEC_NAME + '.json';
     }
-    if (buildPath != ''){
+    if (buildPath != '') {
         fsExtra.outputFile(buildPath, data, err => {
-            if (!err){
-                console.log('*** Chain Spec file generated successfully at ' + process.cwd() + '/build/chainspec/Volta.json'  + ' ***');
+            if (!err) {
+                console.log('*** Chain Spec file generated successfully at ' + process.cwd() + SPEC_NAME + '.json'  + ' ***');
             }
         });
     }    
@@ -124,7 +130,6 @@ async.waterfall([
 
 function retrieveChainspec(callback) {
     console.log('-***-###-@@@-&&&-- EWF Genesis ChianSpec Generator --***-###-@@@-&&&--');
-    console.log('## retrieving initial chainspec file ##');
     // retrieving the local sample chainspec file
     fs.readFile(process.cwd() + '/sample_chainspc/Volta.json', (err, genesisJson) => {  
         if (err) throw err;
@@ -144,8 +149,14 @@ function addMultiSigs(callback) {
                 if (err) throw err;
     
                 let _constructor = encodeParamToByteCode(JSON.parse(contractJson).bytecode, contractConfig.params_types, contractConfig.params);
+                let _balance;
+                if (typeof contractConfig.balance !== 'undefined')
+                    _balance = contractConfig.balance;
+                else
+                    _balance = 1;
+
                 chainspec.accounts[contractConfig.address] = {
-                    balance: '1',
+                    balance: _balance,
                     constructor: _constructor
                 };
                 callback(null);
@@ -172,8 +183,14 @@ function retrieveContractsBytecode(callback) {
                 
                 console.log("Adding " + contractConfig.description)
                 let _constructor = encodeParamToByteCode(JSON.parse(contractJson).bytecode, contractConfig.params_types, contractConfig.params);
+                let _balance;
+                if (typeof contractConfig.balance !== 'undefined')
+                    _balance = contractConfig.balance;
+                else
+                    _balance = 1;
+                
                 chainspec.accounts[contractConfig.address] = {
-                    balance: '1',
+                    balance: _balance,
                     constructor: _constructor
                 };
                 callback(null);
@@ -208,4 +225,21 @@ function encodeParamToByteCode(bytecode, parameterTypes, parameterValues) {
     parameters = web3.eth.abi.encodeParameters(parameterTypes, parameterValues);
     //merge bytecode and parameters
     return bytecode.concat(parameters.slice(2))
+}
+
+
+function deletePreviousVersion(callback) {
+    var buildPath = '';
+    if (BUILD_PATH){
+        buildPath = BUILD_PATH;
+    } else {
+        buildPath = process.cwd() + SPEC_NAME + '.json';
+    }
+    if (buildPath != ''){
+        fs.unlink(buildPath, (err) => {
+            if (!err) 
+                console.log(buildPath + ' was deleted');
+        });
+    }
+    callback(null)
 }
