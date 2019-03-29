@@ -81,7 +81,10 @@ var DEFAULT_MULTISIG_CONFIGS = [
         description: 'Wallet of the Netops team',
         params: [
             // list of netops addresses
-            ['0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9'],
+            [
+                '0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9',
+                '0x32f711baFb5986482f0E858B4a24B453B2e54b3e'
+            ],
             '1'
         ],
         params_types: ['address[]', 'uint']
@@ -92,7 +95,10 @@ var DEFAULT_MULTISIG_CONFIGS = [
         description: 'Wallet of the Community Fund',
         params: [
             // list of foundation addresses
-            ['0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9'],
+            [
+                '0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9',
+                '0x32f711baFb5986482f0E858B4a24B453B2e54b3e'
+            ],
             '1'
         ],
         params_types: ['address[]', 'uint']
