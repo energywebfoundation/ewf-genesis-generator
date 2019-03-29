@@ -17,102 +17,29 @@ const MULTISIG_PATH = args['m'];
 const BUILD_PATH = args['b'];
 
 // internal settings
-const SPEC_NAME = '/build/chainspec/Volta';
+const SPEC_NAME = 'Volta';
 
 // default contract config
-const VALIDATOR_RELAY = '0x1204700000000000000000000000000000000000';
-const VALIDATOR_RELAYED = '0x1204700000000000000000000000000000000001';
-const REWARD = '0x1204700000000000000000000000000000000002';
-const COMMUNITY_FUND = '0x1204700000000000000000000000000000000003';
-const VESTING = '0x1204700000000000000000000000000000000004';
-const VALIDATOR_NETOPS = '0x1204700000000000000000000000000000000005';
-const TARGET_AMOUNT = '80000000000000000000000';
-
-var DEFAULT_CONTRACT_CONFIGS = [
-    {
-        address: VALIDATOR_RELAYED,
-        name: 'ValidatorSetRelayed',
-        description: 'Validator Set Relayed',
-        params: [
-            VALIDATOR_RELAY,
-            [
-                // this is the list of initial validators
-                "0x7e8b8661dbc77d6bee7a1892fbcf8ef6378cab30",
-                "0xdae561c716f9ea58e32e37d9ae95465eca286012",
-                "0xebee2fc556975c3dd50c17d13a15af535fb7bbb3"
-            ]
-        ],
-        params_types: ['address', 'address[]']
-    },
-    {        
-        address: VALIDATOR_RELAY,
-        name: 'ValidatorSetRelay',
-        description: 'Validator Set Relay',
-        params: [
-            VALIDATOR_RELAYED
-        ],
-        params_types: ['address']
-    },
-    {
-        address: REWARD,
-        name: 'BlockReward',
-        description: 'Block Reward',
-        balance: TARGET_AMOUNT,
-        params: [
-            COMMUNITY_FUND,
-            '0'
-        ],
-        params_types: ['address', 'uint']
-    },
-    {
-        address: VESTING,
-        name: 'Holding',
-        description: 'Vesting Contract',
-        params: [],
-        params_types: []
-    }
-
-];
-
-var DEFAULT_MULTISIG_CONFIGS = [
-    {        
-        address: VALIDATOR_NETOPS,
-        name: 'MultiSigWallet',
-        description: 'Wallet of the Netops team',
-        params: [
-            // list of netops addresses
-            [
-                '0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9',
-                '0x32f711baFb5986482f0E858B4a24B453B2e54b3e'
-            ],
-            '1'
-        ],
-        params_types: ['address[]', 'uint']
-    },
-    {        
-        address: COMMUNITY_FUND,
-        name: 'MultiSigWallet',
-        description: 'Wallet of the Community Fund',
-        params: [
-            // list of foundation addresses
-            [
-                '0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9',
-                '0x32f711baFb5986482f0E858B4a24B453B2e54b3e'
-            ],
-            '1'
-        ],
-        params_types: ['address[]', 'uint']
-    }
-]
+var VALIDATOR_RELAY;
+var VALIDATOR_RELAYED;
+var REWARD;
+var COMMUNITY_FUND;
+var VESTING;
+var VALIDATOR_NETOPS;
+var TARGET_AMOUNT;
+var DEFAULT_CONTRACT_CONFIGS;
+var DEFAULT_MULTISIG_CONFIGS;
 
 var web3 = new Web3(ganache.provider());
 
 var chainspec = {};
+var values = {};
 
 // main
 async.waterfall([
     deletePreviousVersion,
     retrieveChainspec,
+    retrieveValues,
     addPoaParams,
     addMultiSigs,
     retrieveContractsBytecode
@@ -122,12 +49,12 @@ async.waterfall([
     if (BUILD_PATH){
         buildPath = BUILD_PATH;
     } else {
-        buildPath = process.cwd() + SPEC_NAME + '.json';
+        buildPath = process.cwd() + '/build/chainspec/' + SPEC_NAME + '.json';
     }
     if (buildPath != '') {
         fsExtra.outputFile(buildPath, data, err => {
             if (!err) {
-                console.log('*** Chain Spec file generated successfully at ' + process.cwd() + SPEC_NAME + '.json'  + ' ***');
+                console.log('*** Chain Spec file generated successfully at ' + buildPath + '.json'  + ' ***');
             }
         });
     }    
@@ -137,9 +64,104 @@ async.waterfall([
 function retrieveChainspec(callback) {
     console.log('-***-###-@@@-&&&-- EWF Genesis ChianSpec Generator --***-###-@@@-&&&--');
     // retrieving the local sample chainspec file
-    fs.readFile(process.cwd() + '/sample_chainspc/Volta.json', (err, genesisJson) => {  
+    fs.readFile(process.cwd() + '/sample_chainspc/' + SPEC_NAME + '.json', (err, genesisJson) => {  
         if (err) throw err;
         chainspec = JSON.parse(genesisJson);                        
+        callback(null);
+    });
+}
+
+function retrieveValues(callback) {
+    console.log('-***-###-@@@-&&&-- EWF Genesis ChianSpec Generator --***-###-@@@-&&&--');
+    // retrieving the local sample chainspec file
+    fs.readFile(process.cwd() + '/sample_chainspc/hardcoded_values.json', (err, jso) => {  
+        if (err) throw err;
+        values = JSON.parse(jso);
+        
+        VALIDATOR_RELAY = values.address_book["VALIDATOR_RELAY"];
+        VALIDATOR_RELAYED = values.address_book["VALIDATOR_RELAYED"];
+        REWARD = values.address_book["REWARD"];
+        COMMUNITY_FUND = values.address_book["COMMUNITY_FUND"];
+        VESTING = values.address_book["VESTING"];
+        VALIDATOR_NETOPS = values.address_book["VALIDATOR_NETOPS"];
+        TARGET_AMOUNT = values.balances["TARGET_AMOUNT"];
+
+        DEFAULT_CONTRACT_CONFIGS = [
+            {
+                address: VALIDATOR_RELAYED,
+                name: 'ValidatorSetRelayed',
+                description: 'Validator Set Relayed',
+                params: [
+                    VALIDATOR_RELAY,
+                    [
+                        // this is the list of initial validators
+                        "0x7e8b8661dbc77d6bee7a1892fbcf8ef6378cab30",
+                        "0xdae561c716f9ea58e32e37d9ae95465eca286012",
+                        "0xebee2fc556975c3dd50c17d13a15af535fb7bbb3"
+                    ]
+                ],
+                params_types: ['address', 'address[]']
+            },
+            {        
+                address: VALIDATOR_RELAY,
+                name: 'ValidatorSetRelay',
+                description: 'Validator Set Relay',
+                params: [
+                    VALIDATOR_RELAYED
+                ],
+                params_types: ['address']
+            },
+            {
+                address: REWARD,
+                name: 'BlockReward',
+                description: 'Block Reward',
+                balance: TARGET_AMOUNT,
+                params: [
+                    COMMUNITY_FUND,
+                    '0'
+                ],
+                params_types: ['address', 'uint']
+            },
+            {
+                address: VESTING,
+                name: 'Holding',
+                description: 'Vesting Contract',
+                params: [],
+                params_types: []
+            }
+        
+        ];
+        
+        DEFAULT_MULTISIG_CONFIGS = [
+            {        
+                address: VALIDATOR_NETOPS,
+                name: 'MultiSigWallet',
+                description: 'Wallet of the Netops team',
+                params: [
+                    // list of netops addresses
+                    [
+                        '0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9',
+                        '0x32f711baFb5986482f0E858B4a24B453B2e54b3e'
+                    ],
+                    '1'
+                ],
+                params_types: ['address[]', 'uint']
+            },
+            {        
+                address: COMMUNITY_FUND,
+                name: 'MultiSigWallet',
+                description: 'Wallet of the Community Fund',
+                params: [
+                    // list of foundation addresses
+                    [
+                        '0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9',
+                        '0x32f711baFb5986482f0E858B4a24B453B2e54b3e'
+                    ],
+                    '1'
+                ],
+                params_types: ['address[]', 'uint']
+            }
+        ]
         callback(null);
     });
 }
@@ -239,7 +261,7 @@ function deletePreviousVersion(callback) {
     if (BUILD_PATH){
         buildPath = BUILD_PATH;
     } else {
-        buildPath = process.cwd() + SPEC_NAME + '.json';
+        buildPath = process.cwd() + '/build/chainspec/' + SPEC_NAME + '.json';
     }
     if (buildPath != ''){
         fs.unlink(buildPath, (err) => {
