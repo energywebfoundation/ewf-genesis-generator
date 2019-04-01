@@ -93,19 +93,21 @@ function retrieveValues(callback) {
                 name: 'ValidatorSetRelayed',
                 description: 'Validator Set Relayed',
                 params: [
+                    VALIDATOR_NETOPS,
                     VALIDATOR_RELAY,
                     values.address_book["INITAL_VALIDATORS"]
                 ],
-                params_types: ['address', 'address[]']
+                params_types: ['address', 'address', 'address[]']
             },
             {        
                 address: VALIDATOR_RELAY,
                 name: 'ValidatorSetRelay',
                 description: 'Validator Set Relay',
                 params: [
+                    VALIDATOR_NETOPS,
                     VALIDATOR_RELAYED
                 ],
-                params_types: ['address']
+                params_types: ['address', 'address']
             },
             {
                 address: REWARD,
@@ -164,12 +166,12 @@ function addMultiSigs(callback) {
             fs.readFile(MULTISIG_PATH + '/' + contractConfig.name + '.json', (err, contractJson) => {
                 if (err) throw err;
     
-                let _constructor = encodeParamToByteCode(JSON.parse(contractJson).bytecode, contractConfig.params_types, contractConfig.params);
+                let _constructor = encodeParamToByteCode(JSON.parse(contractJson).bytecode, contractConfig);
                 let _balance;
                 if (typeof contractConfig.balance !== 'undefined')
                     _balance = contractConfig.balance;
                 else
-                    _balance = 1;
+                    _balance = "1";
 
                 chainspec.accounts[contractConfig.address] = {
                     balance: _balance,
@@ -198,12 +200,12 @@ function retrieveContractsBytecode(callback) {
                 if (err) throw err;
                 
                 console.log("Adding " + contractConfig.description)
-                let _constructor = encodeParamToByteCode(JSON.parse(contractJson).bytecode, contractConfig.params_types, contractConfig.params);
+                let _constructor = encodeParamToByteCode(JSON.parse(contractJson).bytecode, contractConfig);
                 let _balance;
                 if (typeof contractConfig.balance !== 'undefined')
                     _balance = contractConfig.balance;
                 else
-                    _balance = 1;
+                    _balance = "1";
                 
                 chainspec.accounts[contractConfig.address] = {
                     balance: _balance,
@@ -234,11 +236,11 @@ function addPoaParams(callback) {
 }
 
 // prepares the bytecode of the contracts
-function encodeParamToByteCode(bytecode, parameterTypes, parameterValues) {
-    if (parameterTypes.length !== parameterValues.length)
-      throw "types and values do not match"
+function encodeParamToByteCode(bytecode, contractConf) {
+    if (contractConf.params_types.length !== contractConf.params.length)
+      throw contractConf.name + " types and values do not match"
     //encode the parameters
-    parameters = web3.eth.abi.encodeParameters(parameterTypes, parameterValues);
+    parameters = web3.eth.abi.encodeParameters(contractConf.params_types, contractConf.params);
     //merge bytecode and parameters
     return bytecode.concat(parameters.slice(2))
 }

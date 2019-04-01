@@ -22,6 +22,10 @@
     },
     "balances": {
         "TARGET_AMOUNT" : "80000000000000000000000"
+    },
+    "multisig_required": {
+        "NETOPS": "1",
+        "COMMUNITY_FUND": "1"
     }
 
 }

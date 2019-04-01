@@ -10,7 +10,11 @@ The JSON file can be eventually manually pushed to https://github.com/energywebf
 The script will download and compile MultiSigWallet and system contracts in parent directory. Be sure that you don't have a local copy already there.
 ```
 chmod +x install.sh
-./install.sh
+./build.sh install
+```
+After the first install:
+```
+./build.sh
 ```
 
 ## Guidelines
