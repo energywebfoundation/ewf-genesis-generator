@@ -60,7 +60,7 @@ async.waterfall([
     }    
 });
 
-
+// retrieves a very basic (hardcoded) chainspec
 function retrieveChainspec(callback) {
     console.log('-***-###-@@@-&&&-- EWF Genesis ChianSpec Generator --***-###-@@@-&&&--');
     // retrieving the local sample chainspec file
@@ -71,6 +71,7 @@ function retrieveChainspec(callback) {
     });
 }
 
+// retrieves the addresses and parameters
 function retrieveValues(callback) {
     console.log('-***-###-@@@-&&&-- EWF Genesis ChianSpec Generator --***-###-@@@-&&&--');
     // retrieving the local sample chainspec file
@@ -93,12 +94,7 @@ function retrieveValues(callback) {
                 description: 'Validator Set Relayed',
                 params: [
                     VALIDATOR_RELAY,
-                    [
-                        // this is the list of initial validators
-                        "0x7e8b8661dbc77d6bee7a1892fbcf8ef6378cab30",
-                        "0xdae561c716f9ea58e32e37d9ae95465eca286012",
-                        "0xebee2fc556975c3dd50c17d13a15af535fb7bbb3"
-                    ]
+                    values.address_book["INITAL_VALIDATORS"]
                 ],
                 params_types: ['address', 'address[]']
             },
@@ -138,12 +134,8 @@ function retrieveValues(callback) {
                 name: 'MultiSigWallet',
                 description: 'Wallet of the Netops team',
                 params: [
-                    // list of netops addresses
-                    [
-                        '0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9',
-                        '0x32f711baFb5986482f0E858B4a24B453B2e54b3e'
-                    ],
-                    '1'
+                    values.address_book["NETOPS_MEMBERS"],
+                    values.multisig_required["NETOPS"]
                 ],
                 params_types: ['address[]', 'uint']
             },
@@ -152,12 +144,8 @@ function retrieveValues(callback) {
                 name: 'MultiSigWallet',
                 description: 'Wallet of the Community Fund',
                 params: [
-                    // list of foundation addresses
-                    [
-                        '0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9',
-                        '0x32f711baFb5986482f0E858B4a24B453B2e54b3e'
-                    ],
-                    '1'
+                    values.address_book["COMMUNITY_FUND_MEMBERS"],
+                    values.multisig_required["COMMUNITY_FUND"]
                 ],
                 params_types: ['address[]', 'uint']
             }
@@ -233,7 +221,7 @@ function retrieveContractsBytecode(callback) {
     }
 }
 
-
+// modifies the Aura parameters
 function addPoaParams(callback) {
     // link validators set
     chainspec.engine.authorityRound.params["validators"] = {
@@ -245,7 +233,7 @@ function addPoaParams(callback) {
     callback(null);
 }
 
-
+// prepares the bytecode of the contracts
 function encodeParamToByteCode(bytecode, parameterTypes, parameterValues) {
     if (parameterTypes.length !== parameterValues.length)
       throw "types and values do not match"
@@ -255,7 +243,7 @@ function encodeParamToByteCode(bytecode, parameterTypes, parameterValues) {
     return bytecode.concat(parameters.slice(2))
 }
 
-
+// deletes the existing file, before attempting writing it
 function deletePreviousVersion(callback) {
     var buildPath = '';
     if (BUILD_PATH){
