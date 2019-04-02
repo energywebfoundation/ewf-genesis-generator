@@ -25,4 +25,7 @@ truffle compile
 git checkout "vesting"
 git pull
 truffle compile
+git checkout "Registry"
+git pull
+truffle compile
 echo "Done"

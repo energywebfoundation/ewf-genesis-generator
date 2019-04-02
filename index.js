@@ -29,6 +29,7 @@ var VALIDATOR_NETOPS;
 var TARGET_AMOUNT;
 var DEFAULT_CONTRACT_CONFIGS;
 var DEFAULT_MULTISIG_CONFIGS;
+var REGISTRY;
 
 var web3 = new Web3(ganache.provider());
 
@@ -43,6 +44,7 @@ async.waterfall([
     addPoaParams,
     addMultiSigs,
     addEWAG,
+    addRegistry,
     retrieveContractsBytecode
 ], function (err, result) {
     let data = JSON.stringify(chainspec, null, 4);
@@ -88,6 +90,7 @@ function retrieveValues(callback) {
         VALIDATOR_NETOPS = values.address_book["VALIDATOR_NETOPS"];
         TARGET_AMOUNT = values.balances["TARGET_AMOUNT"];
         COMMUNITY_REWARD = values.balances["COMMUNITY_REWARD"];
+        REGISTRY = values.address_book["REGISTRY"];
 
         DEFAULT_CONTRACT_CONFIGS = [
             {
@@ -128,6 +131,15 @@ function retrieveValues(callback) {
                 description: 'Vesting Contract',
                 params: [],
                 params_types: []
+            },
+            {
+                address: REGISTRY,
+                name: 'SimpleRegistry',
+                description: 'Registrar',
+                params: [
+                    VALIDATOR_NETOPS
+                ],
+                params_types: ['address']
             }
         
         ];
@@ -153,7 +165,7 @@ function retrieveValues(callback) {
                 ],
                 params_types: ['address[]', 'uint']
             }
-        ]
+        ];
         callback(null);
     });
 }
@@ -242,6 +254,12 @@ function addEWAG(callback) {
     chainspec.accounts[values.address_book["EWAG"]] = {
         balance: values.balances["EWAG"]
     };
+    callback(null);
+}
+
+// adds registry
+function addRegistry(callback) {
+    chainspec.params["registrar"] = values.address_book["REGISTRY"];
     callback(null);
 }
 
