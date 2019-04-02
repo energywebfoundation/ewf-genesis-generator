@@ -116,7 +116,7 @@ function retrieveValues(callback) {
                 balance: TARGET_AMOUNT,
                 params: [
                     COMMUNITY_FUND,
-                    '0'
+                    '1585500000000000000'
                 ],
                 params_types: ['address', 'uint']
             },
