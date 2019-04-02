@@ -42,6 +42,7 @@ async.waterfall([
     retrieveValues,
     addPoaParams,
     addMultiSigs,
+    addEWAG,
     retrieveContractsBytecode
 ], function (err, result) {
     let data = JSON.stringify(chainspec, null, 4);
@@ -54,7 +55,7 @@ async.waterfall([
     if (buildPath != '') {
         fsExtra.outputFile(buildPath, data, err => {
             if (!err) {
-                console.log('*** Chain Spec file generated successfully at ' + buildPath + '.json'  + ' ***');
+                console.log('*** Chain Spec file generated successfully at ' + buildPath + ' ***');
             }
         });
     }    
@@ -86,6 +87,7 @@ function retrieveValues(callback) {
         VESTING = values.address_book["VESTING"];
         VALIDATOR_NETOPS = values.address_book["VALIDATOR_NETOPS"];
         TARGET_AMOUNT = values.balances["TARGET_AMOUNT"];
+        COMMUNITY_REWARD = values.balances["COMMUNITY_REWARD"];
 
         DEFAULT_CONTRACT_CONFIGS = [
             {
@@ -116,7 +118,7 @@ function retrieveValues(callback) {
                 balance: TARGET_AMOUNT,
                 params: [
                     COMMUNITY_FUND,
-                    '1585500000000000000'
+                    COMMUNITY_REWARD
                 ],
                 params_types: ['address', 'uint']
             },
@@ -232,6 +234,14 @@ function addPoaParams(callback) {
     // link reward contract
     chainspec.engine.authorityRound.params["blockRewardContractAddress"] = REWARD;
     chainspec.engine.authorityRound.params["blockRewardContractTransition"] = "0";
+    callback(null);
+}
+
+// adds EWAG account
+function addEWAG(callback) {
+    chainspec.accounts[values.address_book["EWAG"]] = {
+        balance: values.balances["EWAG"]
+    };
     callback(null);
 }
 

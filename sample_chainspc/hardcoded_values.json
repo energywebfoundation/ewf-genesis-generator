@@ -13,15 +13,18 @@
         ],
         "NETOPS_MEMBERS" : [
             "0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9",
-            "0x32f711baFb5986482f0E858B4a24B453B2e54b3e"
+            "0x32f711bafb5986482f0e858b4a24b453b2e54b3e"
         ],
         "COMMUNITY_FUND_MEMBERS" : [
             "0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9",
-            "0x32f711baFb5986482f0E858B4a24B453B2e54b3e"
-        ]
+            "0x32f711bafb5986482f0e858b4a24b453b2e54b3e"
+        ],
+        "EWAG" : "0x32f711bafb5986482f0e858b4a24b453b2e54b3e"
     },
     "balances": {
-        "TARGET_AMOUNT" : "80000000000000000000000"
+        "TARGET_AMOUNT" : "80000000000000000000000",
+        "COMMUNITY_REWARD" : "6009000000000000000",
+        "EWAG" : "8500000000000000000000"
     },
     "multisig_required": {
         "NETOPS": "1",
