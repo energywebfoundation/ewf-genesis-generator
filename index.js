@@ -91,6 +91,9 @@ function retrieveValues(callback) {
         TARGET_AMOUNT = values.balances["TARGET_AMOUNT"];
         COMMUNITY_REWARD = values.balances["COMMUNITY_REWARD"];
         REGISTRY = values.address_book["REGISTRY"];
+        NODECONTROL_LOOKUP = values.address_book["NODECONTROL_LOOKUP"];
+        NODECONTROL_DB = values.address_book["NODECONTROL_DB"];
+        NODECONTROL_SIMPLE = values.address_book["NODECONTROL_SIMPLE"];
 
         DEFAULT_CONTRACT_CONFIGS = [
             {
@@ -140,7 +143,36 @@ function retrieveValues(callback) {
                     VALIDATOR_NETOPS
                 ],
                 params_types: ['address']
-            }
+            },
+            {
+                address: NODECONTROL_LOOKUP,
+                name: 'NodeControlLookUp',
+                description: 'NodeControlLookUp',
+                params: [
+                    VALIDATOR_NETOPS
+                ],
+                params_types: ['address']               
+            },
+            {
+                address: NODECONTROL_DB,
+                name: 'NodeControlDb',
+                description: 'NodeControlDb',
+                params: [
+                    NODECONTROL_LOOKUP,
+                    VALIDATOR_NETOPS
+                ],
+                params_types: ['address', 'address']               
+            },  
+            {
+                address: NODECONTROL_SIMPLE,
+                name: 'NodeControlSimple',
+                description: 'NodeControlSimple',
+                params: [
+                    NODECONTROL_DB,
+                    VALIDATOR_NETOPS
+                ],
+                params_types: ['address', 'address']               
+            }        
         
         ];
         

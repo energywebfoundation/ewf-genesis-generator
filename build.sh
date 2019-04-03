@@ -16,6 +16,9 @@ else
 fi
 echo "Compiling"
 cd genome-system-contracts
+git checkout "NodeControl"
+git pull
+truffle compile
 git checkout "Registry"
 git pull
 truffle compile
