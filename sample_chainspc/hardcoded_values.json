@@ -14,13 +14,15 @@
         ],
         "NETOPS_MEMBERS" : [
             "0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9",
-            "0x32f711bafb5986482f0e858b4a24b453b2e54b3e"
+            "0x32f711bafb5986482f0e858b4a24b453b2e54b3e",
+            "0xbd8b7c4d9f94b6c3da95e7812083fa801e619500"
         ],
         "COMMUNITY_FUND_MEMBERS" : [
             "0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9",
-            "0x32f711bafb5986482f0e858b4a24b453b2e54b3e"
+            "0x32f711bafb5986482f0e858b4a24b453b2e54b3e",
+            "0xbd8b7c4d9f94b6c3da95e7812083fa801e619500"
         ],
-        "EWAG" : "0x32f711bafb5986482f0e858b4a24b453b2e54b3e"
+        "EWAG" : "0xb0e5df3e7d339aeb1bb2936d45a0ce1ecedc9387"
     },
     "balances": {
         "TARGET_AMOUNT" : "80000000000000000000000",

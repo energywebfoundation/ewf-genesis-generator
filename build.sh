@@ -16,16 +16,10 @@ else
 fi
 echo "Compiling"
 cd genome-system-contracts
-git checkout "feat/validator_contracts"
-git pull
-truffle compile
-git checkout "feat/reward_contract"
-git pull
-truffle compile
-git checkout "vesting"
-git pull
-truffle compile
 git checkout "Registry"
+git pull
+truffle compile
+git checkout "master"
 git pull
 truffle compile
 echo "Done"
