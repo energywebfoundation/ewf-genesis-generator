@@ -149,9 +149,10 @@ function retrieveValues(callback) {
                 name: 'NodeControlLookUp',
                 description: 'NodeControlLookUp',
                 params: [
+                    NODECONTROL_SIMPLE,
                     VALIDATOR_NETOPS
                 ],
-                params_types: ['address']               
+                params_types: ['address', 'address']               
             },
             {
                 address: NODECONTROL_DB,
@@ -172,7 +173,7 @@ function retrieveValues(callback) {
                     VALIDATOR_NETOPS
                 ],
                 params_types: ['address', 'address']               
-            }        
+            }
         
         ];
         
