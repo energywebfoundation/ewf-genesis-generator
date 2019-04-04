@@ -1,20 +1,31 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
 # installs this repo, MultiSigWallet and EWF system contracts
-# @TODO: don't go into genome-system-contracts branches when they are merged
-if [ $1 == "install" ]
+
+cdir="$( cd "$(dirname "$0")" ; pwd -P )"
+
+CONTRACT_REPO_NAME=${CONTRACT_REPO_NAME:-"genome-system-contracts"}
+
+if [[ ${1} == "install" ]]; then
 	npm install
-	cd ..
-	git clone https://github.com/energywebfoundation/MultiSigWallet.git
+    rm -rf "${cdir}/.cloned_repos"
+    mkdir -p "${cdir}/.cloned_repos"
+	cd "${cdir}/.cloned_repos"
+    git clone https://github.com/energywebfoundation/MultiSigWallet.git
 	cd MultiSigWallet
 	npm install
-	truffle compile
+    npm uninstall truffle
+    npm install truffle
+	npx truffle compile
 	cd ..
-	git clone https://github.com/energywebfoundation/genome-system-contracts.git
+	git clone git@github.com:energywebfoundation/${CONTRACT_REPO_NAME}.git
+    cd "${CONTRACT_REPO_NAME}"
+    npm install -D
 else
-	cd ..
 	echo "Assuming that MultiSigWallet and Contracts are already there"
 fi
-echo "Compiling"
-cd genome-system-contracts
-truffle compile
+echo "Compiling system contracts"
+cd "${cdir}/.cloned_repos/${CONTRACT_REPO_NAME}"
+git checkout master
+npx truffle compile
 echo "Done"

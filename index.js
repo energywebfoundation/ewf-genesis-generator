@@ -17,28 +17,27 @@ const MULTISIG_PATH = args['m'];
 const BUILD_PATH = args['b'];
 
 // internal settings
-const SPEC_NAME = 'Volta';
+const SPEC_NAME = 'volta';
 
 // default contract config
-var VALIDATOR_RELAY;
-var VALIDATOR_RELAYED;
-var REWARD;
-var COMMUNITY_FUND;
-var VESTING;
-var VALIDATOR_NETOPS;
-var TARGET_AMOUNT;
-var DEFAULT_CONTRACT_CONFIGS;
-var DEFAULT_MULTISIG_CONFIGS;
-var REGISTRY;
+let VALIDATOR_RELAY;
+let VALIDATOR_RELAYED;
+let REWARD;
+let COMMUNITY_FUND;
+let VESTING;
+let VALIDATOR_NETOPS;
+let TARGET_AMOUNT;
+let DEFAULT_CONTRACT_CONFIGS;
+let DEFAULT_MULTISIG_CONFIGS;
+let REGISTRY;
 
-var web3 = new Web3(ganache.provider());
+const web3 = new Web3(ganache.provider());
 
-var chainspec = {};
-var values = {};
+let chainspec = {};
+let values = {};
 
 // main
 async.waterfall([
-    deletePreviousVersion,
     retrieveChainspec,
     retrieveValues,
     addPoaParams,
@@ -55,7 +54,7 @@ async.waterfall([
         buildPath = process.cwd() + '/build/chainspec/' + SPEC_NAME + '.json';
     }
     if (buildPath != '') {
-        fsExtra.outputFile(buildPath, data, err => {
+        fsExtra.outputFile(buildPath + '/Volta.json', data, err => {
             if (!err) {
                 console.log('*** Chain Spec file generated successfully at ' + buildPath + ' ***');
             }
@@ -67,7 +66,7 @@ async.waterfall([
 function retrieveChainspec(callback) {
     console.log('-***-###-@@@-&&&-- EWF Genesis ChianSpec Generator --***-###-@@@-&&&--');
     // retrieving the local sample chainspec file
-    fs.readFile(process.cwd() + '/sample_chainspc/' + SPEC_NAME + '.json', (err, genesisJson) => {  
+    fs.readFile(process.cwd() + '/sample_chainspec/' + SPEC_NAME + '.json', (err, genesisJson) => {  
         if (err) throw err;
         chainspec = JSON.parse(genesisJson);                        
         callback(null);
@@ -78,7 +77,7 @@ function retrieveChainspec(callback) {
 function retrieveValues(callback) {
     console.log('-***-###-@@@-&&&-- EWF Genesis ChianSpec Generator --***-###-@@@-&&&--');
     // retrieving the local sample chainspec file
-    fs.readFile(process.cwd() + '/sample_chainspc/hardcoded_values.json', (err, jso) => {  
+    fs.readFile(process.cwd() + '/sample_chainspec/hardcoded_values.json', (err, jso) => {  
         if (err) throw err;
         values = JSON.parse(jso);
         
@@ -180,7 +179,7 @@ function retrieveValues(callback) {
         DEFAULT_MULTISIG_CONFIGS = [
             {        
                 address: VALIDATOR_NETOPS,
-                name: 'MultiSigWallet',
+                name: 'MultiSigWalletFactory',
                 description: 'Wallet of the Netops team',
                 params: [
                     values.address_book["NETOPS_MEMBERS"],
@@ -209,10 +208,9 @@ function addMultiSigs(callback) {
     console.log('## adding multi sig contracts ##');
 
     if (MULTISIG_PATH != undefined){
-        async.each(DEFAULT_MULTISIG_CONFIGS, function(contractConfig, callback) { 
+        async.each(DEFAULT_MULTISIG_CONFIGS, function(contractConfig, callback) {
             fs.readFile(MULTISIG_PATH + '/' + contractConfig.name + '.json', (err, contractJson) => {
                 if (err) throw err;
-    
                 let _constructor = encodeParamToByteCode(JSON.parse(contractJson).bytecode, contractConfig);
                 let _balance;
                 if (typeof contractConfig.balance !== 'undefined')
@@ -284,6 +282,7 @@ function addPoaParams(callback) {
 
 // adds EWAG account
 function addEWAG(callback) {
+    console.log("EWAG")
     chainspec.accounts[values.address_book["EWAG"]] = {
         balance: values.balances["EWAG"]
     };
@@ -292,6 +291,7 @@ function addEWAG(callback) {
 
 // adds registry
 function addRegistry(callback) {
+    console.log("Registry")
     chainspec.params["registrar"] = values.address_book["REGISTRY"];
     callback(null);
 }
@@ -303,22 +303,7 @@ function encodeParamToByteCode(bytecode, contractConf) {
     //encode the parameters
     parameters = web3.eth.abi.encodeParameters(contractConf.params_types, contractConf.params);
     //merge bytecode and parameters
+    console.log("bytecode", bytecode)
     return bytecode.concat(parameters.slice(2))
 }
 
-// deletes the existing file, before attempting writing it
-function deletePreviousVersion(callback) {
-    var buildPath = '';
-    if (BUILD_PATH){
-        buildPath = BUILD_PATH;
-    } else {
-        buildPath = process.cwd() + '/build/chainspec/' + SPEC_NAME + '.json';
-    }
-    if (buildPath != ''){
-        fs.unlink(buildPath, (err) => {
-            if (!err) 
-                console.log(buildPath + ' was deleted');
-        });
-    }
-    callback(null)
-}

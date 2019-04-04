@@ -3,14 +3,20 @@
   "version": "1.0.0",
   "description": "EWF Genesis generator",
   "main": "index.js",
-  "author": "Mani Hagh Sefat",
-  "license": "ISC",
+  "author": "energyweb core <core@energyweb.org>",
+  "license": "GPLv3",
+  "scripts": {
+    "build": "./build.sh",
+    "build:install": "./build.sh install",
+    "gen": "node ./index.js -p \"./.cloned_repos/genome-system-contracts/build/contracts\" -m \"./.cloned_repos/MultiSigWallet/build/contracts\" -b \"./build\""
+  },
   "dependencies": {
     "async": "^2.6.2",
     "fs-extra": "^7.0.1",
     "ganache-core": "^2.5.3",
     "get-json": "^1.0.1",
     "minimist": "^1.2.0",
+    "truffle": "5.0.10",
     "web3": "1.0.0-beta.37"
   }
 }

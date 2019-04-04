@@ -18,18 +18,12 @@
         "NETOPS_MEMBERS" : [
             "0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9",
             "0x32f711bafb5986482f0e858b4a24b453b2e54b3e",
-            "0xbd8b7c4d9f94b6c3da95e7812083fa801e619500",
-            "0xd1340825d2b69c55c516ff335319f77c72b2feb6",
-            "0x8e2cb8234e36975ba8ec9586ceb23b97a0cfa816",
-            "0x71e2aeb2acf66444d0528b9dbf5b670101af769c"
+            "0xbd8b7c4d9f94b6c3da95e7812083fa801e619500"
         ],
         "COMMUNITY_FUND_MEMBERS" : [
             "0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9",
             "0x32f711bafb5986482f0e858b4a24b453b2e54b3e",
-            "0xbd8b7c4d9f94b6c3da95e7812083fa801e619500",
-            "0xd1340825d2b69c55c516ff335319f77c72b2feb6",
-            "0x8e2cb8234e36975ba8ec9586ceb23b97a0cfa816",
-            "0x71e2aeb2acf66444d0528b9dbf5b670101af769c"
+            "0xbd8b7c4d9f94b6c3da95e7812083fa801e619500"
         ],
         "EWAG" : "0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9"
     },
@@ -39,8 +33,8 @@
         "EWAG" : "8500000000000000000000"
     },
     "multisig_required": {
-        "NETOPS": "2",
-        "COMMUNITY_FUND": "2"
+        "NETOPS": "1",
+        "COMMUNITY_FUND": "1"
     }
 
 }
