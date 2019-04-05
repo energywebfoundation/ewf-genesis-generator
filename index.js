@@ -182,7 +182,7 @@ function retrieveValues() {
     DEFAULT_MULTISIG_CONFIGS = [
         {
             address: VALIDATOR_NETOPS,
-            name: 'MultiSigWalletFactory',
+            name: 'MultiSigWallet',
             description: 'Wallet of the Netops team',
             params: [
                 values.address_book["NETOPS_MEMBERS"],

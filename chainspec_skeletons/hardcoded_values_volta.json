@@ -16,14 +16,34 @@
             "0xebee2fc556975c3dd50c17d13a15af535fb7bbb3"
         ],
         "NETOPS_MEMBERS" : [
+            "0x0052569b2d787bb89d711e4afb56f9c1e420a2a6",
+            "0x00b4e6b2c61a27dc5dc20ab4084b27838834b4ce",
             "0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9",
+            "0x513676cd05fe25992a7d787b8de8a0224368f720",
             "0x32f711bafb5986482f0e858b4a24b453b2e54b3e",
-            "0xbd8b7c4d9f94b6c3da95e7812083fa801e619500"
+            "0xbd8b7c4d9f94b6c3da95e7812083fa801e619500",
+            "0xd1340825d2b69c55c516ff335319f77c72b2feb6",
+            "0x6b7948d60652237753ce513317ab634d8db1cac8",
+            "0x49b6e2386bbf577c457b231bfd1d36bd8a916b4b",
+            "0x9d5fe5d9d13b6af848b09f7293b1b75a578d6140",
+            "0xf3cc4c58d6cb940c329e7b307b784f3b57572dc8",
+            "0x8e2cb8234e36975ba8ec9586ceb23b97a0cfa816",
+            "0x71e2aeb2acf66444d0528b9dbf5b670101af769c"
         ],
         "COMMUNITY_FUND_MEMBERS" : [
+            "0x0052569b2d787bb89d711e4afb56f9c1e420a2a6",
+            "0x00b4e6b2c61a27dc5dc20ab4084b27838834b4ce",
             "0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9",
+            "0x513676cd05fe25992a7d787b8de8a0224368f720",
             "0x32f711bafb5986482f0e858b4a24b453b2e54b3e",
-            "0xbd8b7c4d9f94b6c3da95e7812083fa801e619500"
+            "0xbd8b7c4d9f94b6c3da95e7812083fa801e619500",
+            "0xd1340825d2b69c55c516ff335319f77c72b2feb6",
+            "0x6b7948d60652237753ce513317ab634d8db1cac8",
+            "0x49b6e2386bbf577c457b231bfd1d36bd8a916b4b",
+            "0x9d5fe5d9d13b6af848b09f7293b1b75a578d6140",
+            "0xf3cc4c58d6cb940c329e7b307b784f3b57572dc8",
+            "0x8e2cb8234e36975ba8ec9586ceb23b97a0cfa816",
+            "0x71e2aeb2acf66444d0528b9dbf5b670101af769c"
         ],
         "EWAG" : "0x0650231bd8ebb81af7aeeee52e322eeb28fea5b9"
     },
@@ -33,8 +53,8 @@
         "EWAG" : "8500000000000000000000"
     },
     "multisig_required": {
-        "NETOPS": "1",
-        "COMMUNITY_FUND": "1"
+        "NETOPS": "2",
+        "COMMUNITY_FUND": "2"
     }
 
 }
