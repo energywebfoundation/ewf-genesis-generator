@@ -123,7 +123,6 @@ function retrieveValues() {
             address: REWARD,
             name: 'BlockReward',
             description: 'Block Reward',
-            balance: TARGET_AMOUNT,
             params: [
                 COMMUNITY_FUND,
                 COMMUNITY_REWARD
@@ -133,6 +132,7 @@ function retrieveValues() {
         {
             address: VESTING,
             name: 'Holding',
+            balance: TARGET_AMOUNT,
             description: 'Vesting Contract',
             params: [],
             params_types: []
@@ -246,6 +246,7 @@ function retrieveContractsBytecode() {
                 balance: _balance,
                 constructor: _constructor
             }
+            console.log(chainspec.accounts[DEFAULT_CONTRACT_CONFIGS[i].address])
         }
     } else {
         console.log("Compiled built contract path no defined, usage: --p <YOUR_COMPILED_CONTRACT_PATH>");

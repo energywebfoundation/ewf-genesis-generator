@@ -50,7 +50,7 @@
     "balances": {
         "TARGET_AMOUNT" : "80000000000000000000000",
         "COMMUNITY_REWARD" : "6009000000000000000",
-        "EWAG" : "8500000000000000000000"
+        "EWAG" : "8500000000000000000000000"
     },
     "multisig_required": {
         "NETOPS": "2",
