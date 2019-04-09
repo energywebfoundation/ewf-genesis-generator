@@ -44,7 +44,7 @@ function main() {
     retrieveValues();
     addPoaParams();
     addMultiSigs();
-    addEWAG();
+    addIgnitor();
     addRegistry();
     retrieveContractsBytecode();
 
@@ -96,6 +96,7 @@ function retrieveValues() {
     NODECONTROL_LOOKUP = values.address_book["NODECONTROL_LOOKUP"];
     NODECONTROL_DB = values.address_book["NODECONTROL_DB"];
     NODECONTROL_SIMPLE = values.address_book["NODECONTROL_SIMPLE"];
+    EWAG_MULTISIG = values.address_book["EWAG_MULTISIG"];
 
     DEFAULT_CONTRACT_CONFIGS = [
         {
@@ -199,6 +200,16 @@ function retrieveValues() {
                 values.multisig_required["COMMUNITY_FUND"]
             ],
             params_types: ['address[]', 'uint']
+        },
+        {
+            address: EWAG_MULTISIG,
+            name: 'MultiSigWallet',
+            description: 'Wallet of the EWAG',
+            params: [
+                values.address_book["EWAG_MEMBERS"],
+                values.multisig_required["EWAG"]
+            ],
+            params_types: ['address[]', 'uint']
         }
     ];
 }
@@ -263,12 +274,12 @@ function addPoaParams() {
     chainspec.engine.authorityRound.params["blockRewardContractTransition"] = "0";
 }
 
-// adds EWAG account
-function addEWAG() {
-    chainspec.accounts[values.address_book["EWAG"]] = {
-        balance: values.balances["EWAG"]
+// adds ignitor account
+function addIgnitor() {
+    chainspec.accounts[values.address_book["IGNITOR"]] = {
+        balance: values.balances["IGNITOR"]
     };
-    console.log("EWAG done");
+    console.log("Ignitor done");
 }
 
 // adds registry
