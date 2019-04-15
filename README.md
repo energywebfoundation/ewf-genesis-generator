@@ -38,3 +38,7 @@ node . --p [COMPILED-CONTRACTS-PATH] -m [COMPILED-MULTISIG-PATH]
 ```
 node . -p ../genome-system-contracts/build/contracts/ -m ../MultiSigWallet/build/contracts/
 ```
+You might need the sha3 value of the spec file. A command is:
+```
+openssl dgst -sha256 build/$(chainspec_name_here)
+```
