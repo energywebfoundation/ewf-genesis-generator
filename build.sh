@@ -5,6 +5,7 @@
 cdir="$( cd "$(dirname "$0")" ; pwd -P )"
 
 CONTRACT_REPO_NAME=${CONTRACT_REPO_NAME:-"genome-system-contracts"}
+SYSTEM_CONTRACTS_TAG=${SYSTEM_CONTRACTS_TAG:-"v0.0.0"}
 
 if [[ ${1} == "install" ]]; then
 	npm install
@@ -20,12 +21,13 @@ if [[ ${1} == "install" ]]; then
 	cd ..
 	git clone git@github.com:energywebfoundation/${CONTRACT_REPO_NAME}.git
     cd "${CONTRACT_REPO_NAME}"
+    git checkout tags/${SYSTEM_CONTRACTS_TAG}
     npm install -D
 else
 	echo "Assuming that MultiSigWallet and Contracts are already there"
 fi
 echo "Compiling system contracts"
 cd "${cdir}/.cloned_repos/${CONTRACT_REPO_NAME}"
-git checkout master
+git checkout tags/${SYSTEM_CONTRACTS_TAG}
 npx truffle compile
 echo "Done"
