@@ -4,7 +4,7 @@
 
 cdir="$( cd "$(dirname "$0")" ; pwd -P )"
 
-CONTRACT_REPO_NAME=${CONTRACT_REPO_NAME:-"genome-system-contracts"}
+CONTRACT_REPO_NAME=${CONTRACT_REPO_NAME:-"ewc-system-contracts"}
 SYSTEM_CONTRACTS_TAG=${SYSTEM_CONTRACTS_TAG:-"v0.0.0"}
 
 if [[ ${1} == "install" ]]; then

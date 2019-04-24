@@ -13,7 +13,7 @@ Pietro Danzi (@danzipie), Adam Nagy (@ngyam)
 - npm
 
 ## Quickstart
-The [build](./build.sh) script will download [MultiSigWallet](https://github.com/gnosis/MultiSigWallet) and [system contracts](https://github.com/energywebfoundation/genome-system-contracts) in a local directory named `.cloned_repos/` then compile them.
+The [build](./build.sh) script will download [MultiSigWallet](https://github.com/gnosis/MultiSigWallet) and [system contracts](https://github.com/energywebfoundation/ewc-system-contracts) in a local directory named `.cloned_repos/` then compile them.
 
 To run the install and build in one step:
 ```
@@ -48,7 +48,7 @@ This will put the generated chainspec into the `build/` folder.
     ```
     e.g. the default params are:
     ```
-    node . -p "./.cloned_repos/genome-system-contracts/build/contracts/" -m "./.cloned_repos/MultiSigWallet/build/contracts/" -b "./build" -s volta
+    node . -p "./.cloned_repos/ewc-system-contracts/build/contracts/" -m "./.cloned_repos/MultiSigWallet/build/contracts/" -b "./build" -s volta
     ```
 
 
