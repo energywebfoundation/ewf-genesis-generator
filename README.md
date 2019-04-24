@@ -38,25 +38,17 @@ This will put the generated chainspec into the `build/` folder.
  3. Do ```npm run gen``` which is parametrized with the default settings, or ```./index.js``` manually.
 
 **Params**: The script accepts 3 params:
-   - `-m`: multisig wallet build folder
-   - `-p`: system contracts build folder
-   - `-b`: output build folder where the chainspec will be generated.
-   - `-s`: spec name/config
-
-    ```
-    node . --p [COMPILED-CONTRACTS-PATH] -m [COMPILED-MULTISIG-PATH] -b [OUTPUT_BUILD_PATH] -s [SPEC_NAME]
-    ```
-    e.g. the default params are:
-    ```
-    node . -p "./.cloned_repos/ewc-system-contracts/build/contracts/" -m "./.cloned_repos/MultiSigWallet/build/contracts/" -b "./build" -s volta
-    ```
+ - `-m`: multisig wallet build folder
+ - `-p`: system contracts build folder
+ - `-b`: output build folder where the chainspec will be generated.
+ - `-s`: spec name/config
 
 ```
-node . --p [COMPILED-CONTRACTS-PATH] -m [COMPILED-MULTISIG-PATH][OUTPUT_BUILD_PATH] -s [SPEC_NAME]
+node . --p [COMPILED-CONTRACTS-PATH] -m [COMPILED-MULTISIG-PATH] -b [OUTPUT_BUILD_PATH] -s [SPEC_NAME]
 ```
 e.g. the default params are:
 ```
-node . -p "./.cloned_repos/genome-system-contracts/build/contracts/" -m "./.cloned_repos/MultiSigWallet/build/contracts/" -b "./build" -s volta
+node . -p "./.cloned_repos/ewc-system-contracts/build/contracts/" -m "./.cloned_repos/MultiSigWallet/build/contracts/" -b "./build" -s volta
 ```
 
 ## Contributing
