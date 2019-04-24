@@ -65,14 +65,14 @@
     },
     "balances": {
         "TARGET_AMOUNT" : "80000000000000000000000000",
-        "COMMUNITY_REWARD" : "6009000000000000000",
+        "COMMUNITY_REWARD" : "600900558100000000",
         "EWAG" : "8500000000000000000000000",
         "IGNITOR": "1000000000000000000"
     },
     "multisig_required": {
-        "NETOPS": "2",
-        "COMMUNITY_FUND": "2",
-        "EWAG": "2"
+        "NETOPS": "3",
+        "COMMUNITY_FUND": "3",
+        "EWAG": "3"
     }
 
 }
