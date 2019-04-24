@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "EWF Genesis generator",
   "main": "index.js",
-  "author": "energyweb core <core@energyweb.org>",
+  "author": "Energyweb core <core@energyweb.org>",
   "license": "GPLv3",
   "scripts": {
     "build": "./build.sh",

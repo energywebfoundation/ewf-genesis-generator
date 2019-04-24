@@ -54,7 +54,7 @@ function main() {
     if (BUILD_PATH) {
         buildPath = BUILD_PATH;
     } else {
-        buildPath = process.cwd() + '/build/chainspec/' + SPEC_NAME + '.json';
+        buildPath = process.cwd() + '/build/';
     }
 
     if (buildPath != '') {
@@ -81,7 +81,7 @@ function retrieveChainspec() {
 function retrieveValues() {
     console.log('### Retrieving hardcoded chainspec values...');
     // retrieving the local sample chainspec file
-    let jso = fs.readFileSync(process.cwd() + '/chainspec_skeletons/hardcoded_values_' + SPEC_NAME + '.json');
+    let jso = fs.readFileSync(process.cwd() + '/chainspec_skeletons/hardcoded_values_' + SPEC_NAME.toLowerCase() + '.json');
     values = JSON.parse(jso);
 
     VALIDATOR_RELAY = values.address_book["VALIDATOR_RELAY"];
@@ -298,4 +298,3 @@ function encodeParamToByteCode(bytecode, contractConf) {
     //merge bytecode and parameters
     return bytecode.concat(parameters.slice(2))
 }
-
