@@ -225,8 +225,6 @@ function addMultiSigs() {
             let _balance;
             if (typeof DEFAULT_MULTISIG_CONFIGS[i].balance !== 'undefined')
                 _balance = DEFAULT_MULTISIG_CONFIGS[i].balance;
-            else
-                _balance = "1";
 
             chainspec.accounts[DEFAULT_MULTISIG_CONFIGS[i].address] = {
                 balance: _balance,
@@ -250,8 +248,6 @@ function retrieveContractsBytecode() {
             let _balance;
             if (typeof DEFAULT_CONTRACT_CONFIGS[i].balance !== 'undefined')
                 _balance = DEFAULT_CONTRACT_CONFIGS[i].balance;
-            else
-                _balance = "1";
 
             chainspec.accounts[DEFAULT_CONTRACT_CONFIGS[i].address] = {
                 balance: _balance,
@@ -274,11 +270,13 @@ function addPoaParams() {
     chainspec.engine.authorityRound.params["blockRewardContractTransition"] = "0";
 }
 
-// adds ignitor account
+// adds ignitor accounts
 function addIgnitor() {
-    chainspec.accounts[values.address_book["IGNITOR"]] = {
-        balance: values.balances["IGNITOR"]
-    };
+    for (let i = 0; i < values.address_book["IGNITOR_MEMBERS"].length; i++) {
+        chainspec.accounts[values.address_book["IGNITOR_MEMBERS"][i]] = {
+            balance: values.balances["IGNITOR"]
+        };
+    }
     console.log("Ignitor done");
 }
 
