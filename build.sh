@@ -5,7 +5,7 @@
 cdir="$( cd "$(dirname "$0")" ; pwd -P )"
 
 CONTRACT_REPO_NAME=${CONTRACT_REPO_NAME:-"ewc-system-contracts"}
-SYSTEM_CONTRACTS_TAG=${SYSTEM_CONTRACTS_TAG:-"v1.0.0"}
+SYSTEM_CONTRACTS_TAG=${SYSTEM_CONTRACTS_TAG:-"v1.0.1"}
 
 if [[ ${1} == "install" ]]; then
 	npm install
