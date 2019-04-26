@@ -44,6 +44,7 @@ function main() {
     retrieveValues();
     addPoaParams();
     addMultiSigs();
+    addEWAG();
     addIgnitor();
     addRegistry();
     retrieveContractsBytecode();
@@ -268,6 +269,12 @@ function addPoaParams() {
     // link reward contract
     chainspec.engine.authorityRound.params["blockRewardContractAddress"] = REWARD;
     chainspec.engine.authorityRound.params["blockRewardContractTransition"] = "0";
+}
+
+// adds balance to EWAG account
+function addEWAG() {
+    chainspec.accounts[values.address_book["EWAG_MULTISIG"]].balance = values.balances["EWAG"];
+    console.log("EWAG done");
 }
 
 // adds ignitor accounts
