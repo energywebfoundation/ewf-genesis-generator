@@ -16,26 +16,35 @@ Pietro Danzi (@danzipie), Adam Nagy (@ngyam)
 The [build](./build.sh) script will download [MultiSigWallet](https://github.com/gnosis/MultiSigWallet) and [system contracts](https://github.com/energywebfoundation/ewc-system-contracts) in a local directory named `.cloned_repos/` then compile them.
 
 To run the install and build in one step:
-```
+```bash
+# for ewc
 npm run build:install
+# for volta
+npm run build:install:volta
 ```
 If you just want to build the contracts again:
-```
+```bash
+# for ewc
 npm run build
+# for volta
+npm run build:volta
 ```
 To generate the chainspec:
-```
+```bash
+# for ewc
 npm run gen
+# for volta
+npm run gen:volta
 ```
 This will put the generated chainspec into the `build/` folder.
 
 ## Using the generator [script](./index.js)
 
- 1. Make sure that the contracts are pulled and compiled, if not, run ```npm run build:install```
- 2. Make sure that the necessary input files are put to the [./chainspec_skeletons] folder:
+ 1. Make sure that the contracts are pulled and compiled, if not, run ```npm run build:install``` or ```npm run build:install:volta``` 
+ 2. Make sure that the necessary input files are put to the [./chainspec_skeletons](./chainspec_skeletons) folder:
     - `[SPEC_NAME].json`: chainspec skeleton which needs to be filled with genesis contracts and accounts. SPEC_NAME should be lowercase, e.g for Volta chain is: `volta` -> `volta.json`.
     - `hardcoded_values_[SPEC_NAME].json`: all the necessary hardcoded addresses to be used in the chainspec. For `volta` -> `hardcoded_values_volta.json`.
- 3. Do ```npm run gen``` which is parametrized with the default settings, or ```./index.js``` manually.
+ 3. Do ```npm run gen``` or ```npm run gen:volta```, or ```./index.js``` with params manually.
 
 **Params**: The script accepts 3 params:
  - `-m`: multisig wallet build folder

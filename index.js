@@ -2,7 +2,6 @@
 
 // include dependencies
 const fs = require('fs');
-const getJSON = require('get-json');
 const fsExtra = require('fs-extra');
 const Web3 = require('web3');
 const ganache = require("ganache-core");
@@ -17,7 +16,7 @@ const BUILD_PATH = args['b'];
 let SPEC_NAME = args['s'];
 
 if (SPEC_NAME == undefined || SPEC_NAME == null) {
-    SPEC_NAME = "volta"
+    SPEC_NAME = "ewc"
 }
 
 // default contract config
@@ -37,7 +36,6 @@ const web3 = new Web3(ganache.provider());
 let chainspec = {};
 let values = {};
 
-// main
 
 function main() {
     retrieveChainspec();
@@ -67,8 +65,6 @@ function main() {
         });
     }
 }
-
-main();
 
 // retrieves a very basic (hardcoded) chainspec
 function retrieveChainspec() {
@@ -303,3 +299,5 @@ function encodeParamToByteCode(bytecode, contractConf) {
     //merge bytecode and parameters
     return bytecode.concat(parameters.slice(2))
 }
+
+main();
