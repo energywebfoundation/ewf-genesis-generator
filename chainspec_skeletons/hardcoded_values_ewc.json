@@ -53,12 +53,11 @@
         "TARGET_AMOUNT" : "40789499640000000000000000",
         "COMMUNITY_REWARD" : "600900558100000000",
         "EWAG" : "11310499300000000000000000",
-        "IGNITOR": "125000000000000000"
+        "IGNITOR": "250000000000000000"
     },
     "multisig_required": {
         "NETOPS": "3",
         "COMMUNITY_FUND": "3",
         "EWAG": "3"
     }
-
 }
