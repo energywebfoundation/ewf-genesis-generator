@@ -812,7 +812,7 @@
 						"price": { "alt_bn128_const_operations": { "price": 500 }}
 					},
 					"0x7fffffffffffff": {
-						"info": "EIP 1108 transition",
+						"info": "EIP 1108 transition at block X_XXX_XXX (0x7fffffffffffff)",
 						"price": { "alt_bn128_const_operations": { "price": 150 }}
 					}
                 }
@@ -827,7 +827,7 @@
                         "price": { "alt_bn128_const_operations": { "price": 40000 }}
 					},
 					"0x7fffffffffffff": {
-						"info": "EIP 1108 transition",
+						"info": "EIP 1108 transition at block X_XXX_XXX (0x7fffffffffffff)",
 						"price": { "alt_bn128_const_operations": { "price": 6000 }}
 					}
 				}
@@ -842,7 +842,7 @@
 						"price": { "alt_bn128_pairing": { "base": 100000, "pair": 80000 }}
 					},
 					"0x7fffffffffffff": {
-						"info": "EIP 1108 transition",
+						"info": "EIP 1108 transition at block X_XXX_XXX (0x7fffffffffffff)",
 						"price": { "alt_bn128_pairing": { "base": 45000, "pair": 34000 }}
 					}
                 }
