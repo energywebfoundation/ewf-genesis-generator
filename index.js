@@ -78,7 +78,10 @@ function retrieveChainspec() {
 function retrieveValues() {
     console.log('### Retrieving hardcoded chainspec values...');
     // retrieving the local sample chainspec file
-    let jso = fs.readFileSync(process.cwd() + '/chainspec_skeletons/hardcoded_values_' + SPEC_NAME.toLowerCase() + '.json');
+    let nlo = SPEC_NAME.toLowerCase();
+    let nsplit = nlo.split('_');
+    let fending = nsplit.slice(-1)[0] === 'hcs' ? nsplit.slice(0,-1).join('_') : nlo;
+    let jso = fs.readFileSync(process.cwd() + '/chainspec_skeletons/hardcoded_values_' + fending  + '.json');
     values = JSON.parse(jso);
 
     VALIDATOR_RELAY = values.address_book["VALIDATOR_RELAY"];
