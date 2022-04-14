@@ -19,7 +19,7 @@
     "gen:volta_hcs": "node ./index.js -p \"./.cloned_repos/volta-system-contracts/build/contracts\" -m \"./.cloned_repos/MultiSigWallet/build/contracts\" -b \"./build\" -s volta_hcs"
   },
   "dependencies": {
-    "async": "^2.6.2",
+    "async": "^3.2.2",
     "fs-extra": "^7.0.1",
     "ganache-core": "^2.5.3",
     "minimist": "^1.2.0",
